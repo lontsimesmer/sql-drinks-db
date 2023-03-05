@@ -1,5 +1,6 @@
 const express = require("express");
-const Drink = require("../database/drink");
+const { Op, where } = require("sequelize");
+const Drink = require("../database/drinks");
 const router = express.Router();
 
 router.get("/", async function (req, res) {
@@ -19,8 +20,13 @@ router.get("/:id", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const drink = await Drink.create(req.body);
-  res.json(drink);
+  const { name, description, imageUrl, recipie } = req.body;
+  if (name && description && imageUrl && recipie) {
+    await Drink.update(req.body, { where: { id: req.params.id } });
+    const data = await Drink.findByPk(req.params.id);
+    res.send(data);
+  }
+  res.send({message: "Incomplete validation"});
 });
 
 router.patch("/:id", async (req, res) => {

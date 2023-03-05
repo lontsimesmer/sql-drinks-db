@@ -1,6 +1,6 @@
 const sequelize = require(".");
 const Category = require("./category");
-const Drink = require("./drink");
+const Drink = require("./drinks");
 const Glass = require("./glass");
 const Ingredients = require("./ingredient");
 const User = require("./users");
