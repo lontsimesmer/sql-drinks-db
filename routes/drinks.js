@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", async function (req, res) {
   const drinks = await Drink.findAll();
-  res.json(drinks);
+  res.send(drinks);
 });
 
 router.post("/", async (req, res) => {
@@ -26,15 +26,18 @@ router.put("/:id", async (req, res) => {
     const data = await Drink.findByPk(req.params.id);
     res.send(data);
   }
-  res.send({message: "Incomplete validation"});
+  res.send({ message: "Complete validation" });
 });
 
 router.patch("/:id", async (req, res) => {
-  const drink = await Drink.create(req.body);
-  res.json(drink);
+  await Drink.update(req.body, { where: { id: req.params.id } });
+  const infos = await Drink.findByPk(req.params.id);
+  res.send(infos);
 });
 
 router.delete("/:id", async (req, res) => {
-  const drink = await Drink.create(req.body);
-  res.json(drink);
+  await Drink.destroy({ where: { id: req.params.id } });
+  res.send("Success");
 });
+
+module.exports = router;
