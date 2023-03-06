@@ -7,7 +7,7 @@ router.get("/", async function (req, res) {
   res.send(ingredients);
 });
 
-router.post("/", async function (req, res) {
+router.post("/:id", async function (req, res) {
   const { name, description } = req.body;
   const ingredient = await Ingredient.create({ name, description });
   res.send(ingredient);
