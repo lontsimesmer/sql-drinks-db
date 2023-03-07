@@ -39,7 +39,7 @@ router.patch("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  await Category.destroy(req.body, { where: { id: req.params.id } });
+  await Category.destroy({ where: { id: req.params.id } });
   res.send("Succeeded");
 });
 

@@ -7,27 +7,36 @@ router.get("/", async function (req, res) {
   res.send(ingredients);
 });
 
-router.post("/:id", async function (req, res) {
+router.post("/", async function (req, res) {
   const { name, description } = req.body;
   const ingredient = await Ingredient.create({ name, description });
   res.send(ingredient);
 });
 
 router.get("/:id", async function (req, res) {
-  res.send();
-});
-
-router.put("/:id", async function (req, res) {
   const ingredient = await Ingredient.findByPk(req.params.id);
   res.send(ingredient);
 });
 
+router.put("/:id", async function (req, res) {
+  const { name, description } = req.body;
+  if (name && description) {
+    await Ingredient.update(req.body, { where: { id: req.params.id } });
+    const data = await Ingredient.findByPk(req.params.id);
+    res.send(data);
+  }
+  res.send({ message: "Incomplete validation" });
+});
+
 router.patch("/:id", async function (req, res) {
-  res.send();
+  await Ingredient.update(req.body, { where: { id: req.params.id } });
+  const infos = await Ingredient.findByPk(req.params.id);
+  res.send(infos);
 });
 
 router.delete("/:id", async function (req, res) {
-  res.send();
+  await Ingredient.destroy({ where: { id: req.params.id } });
+  res.send("success");
 });
 
 module.exports = router;

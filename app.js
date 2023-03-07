@@ -9,6 +9,7 @@ const usersRouter = require("./routes/users");
 const drinksRouter = require("./routes/drinks");
 const categoryRouter = require("./routes/category");
 const ingredientRouter = require("./routes/ingredient");
+const glassRouter = require("./routes/glass");
 const relate = require("./database/relationship");
 
 const app = express();
@@ -29,6 +30,7 @@ app.use("/users", usersRouter);
 app.use("/drinks", drinksRouter);
 app.use("/category", categoryRouter);
 app.use("/ingredient", ingredientRouter);
+app.use("/glass", glassRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

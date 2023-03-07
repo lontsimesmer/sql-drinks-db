@@ -10,6 +10,7 @@ const Glass = sequelize.define(
       primaryKey: true,
     },
     name: DataTypes.STRING,
+    description: DataTypes.TEXT,
   },
   {
     timstamps: true,
