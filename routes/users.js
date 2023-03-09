@@ -1,6 +1,8 @@
 const express = require("express");
-const { Op, where } = require("sequelize");
+const bcrypt = require("bcrypt");
+
 const User = require("../database/users");
+const { SALT_ROUNDS } = require("../services/constants");
 const router = express.Router();
 
 /* Get users listing. */
@@ -9,17 +11,23 @@ router.get("/", async function (req, res) {
   res.send(users);
 });
 
-router.post("/", async function (req, res) {
+router.post("/", function (req, res) {
   const { firstName, lastName, emailAddress, phone, password } = req.body;
-  const user = await User.create({
-    firstName,
-    lastName,
-    emailAddress,
-    phone,
-    password,
-    apiKey: Date.now(),
+  bcrypt.hash(password, SALT_ROUNDS, async function (err, hash) {
+    if (err) res.status(500).send(err);
+    else {
+      const user = await User.create({
+        firstName,
+        lastName,
+        emailAddress,
+        phone,
+        password: hash,
+        apiKey: Date.now(),
+      });
+      res.json(user);
+      console.log(password);
+    }
   });
-  res.send(user);
 });
 
 router.get("/:id", async function (req, res) {

@@ -13,6 +13,11 @@ const Drink = sequelize.define(
     description: DataTypes.TEXT,
     imageUrl: DataTypes.STRING,
     recipe: DataTypes.STRING,
+    isAlcoholic: DataTypes.BOOLEAN,
+    userId: DataTypes.INTEGER,
+    categoryId: DataTypes.INTEGER,
+    glassId: DataTypes.INTEGER,
+    ingredientId: DataTypes.INTEGER
   },
   {
     timstamps: true,
