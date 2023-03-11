@@ -1,8 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-
-const User = require("../database/users");
 const { SALT_ROUNDS } = require("../services/constants");
+const User = require("../database/users");
 const router = express.Router();
 
 /* Get users listing. */
@@ -12,9 +11,12 @@ router.get("/", async function (req, res) {
 });
 
 router.post("/", function (req, res) {
+  console.log(1)
   const { firstName, lastName, emailAddress, phone, password } = req.body;
-  bcrypt.hash(password, SALT_ROUNDS, async function (err, hash) {
-    if (err) res.status(500).send(err);
+  bcrypt.hash(password, SALT_ROUNDS, async function(err, hash) {
+    console.log(2)
+    if(err) {res.status(500).send(err);
+    console.log(err) }
     else {
       const user = await User.create({
         firstName,
@@ -24,12 +26,10 @@ router.post("/", function (req, res) {
         password: hash,
         apiKey: Date.now(),
       });
-      res.json(user);
-      console.log(password);
+      res.send(user);
     }
   });
 });
-
 router.get("/:id", async function (req, res) {
   const user = await User.findByPk(req.params.id);
   res.send(user);

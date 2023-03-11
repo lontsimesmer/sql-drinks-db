@@ -1,3 +1,3 @@
-const SALT_ROUNDS = process.env.SALT_ROUNDS;
+const SALT_ROUNDS = +process.env.SALT_ROUNDS;
 
 module.exports = { SALT_ROUNDS };
