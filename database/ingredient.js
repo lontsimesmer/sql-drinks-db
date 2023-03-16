@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require(".");
 
 const Ingredient = sequelize.define(
-  "Ingredient",
+  "ingredient",
   {
     id: {
       type: DataTypes.INTEGER,

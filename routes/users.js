@@ -1,37 +1,42 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const uuid = require("uuid");
+
 const { SALT_ROUNDS } = require("../services/constants");
 const User = require("../database/users");
-const router = express.Router();
+const Drink = require('../database/drinks');
+const { authMiddleware } = require("../services/auth");
 
+const router = express.Router();
 /* Get users listing. */
 router.get("/", async function (req, res) {
-  const users = await User.findAll({});
+  const users = await User.findAll({include: Drink});
   res.send(users);
 });
 
-router.post("/", function (req, res) {
-  console.log(1)
+router.post("/", authMiddleware, function (req, res) {
+  console.log(1);
   const { firstName, lastName, emailAddress, phone, password } = req.body;
-  bcrypt.hash(password, SALT_ROUNDS, async function(err, hash) {
-    console.log(2)
-    if(err) {res.status(500).send(err);
-    console.log(err) }
-    else {
+  bcrypt.hash(password, SALT_ROUNDS, async function (err, hash) {
+    console.log(2);
+    if (err) {
+      res.status(500).send(err);
+      console.log(err);
+    } else {
       const user = await User.create({
         firstName,
         lastName,
         emailAddress,
         phone,
         password: hash,
-        apiKey: Date.now(),
+        apiKey: uuid.v4(),
       });
       res.send(user);
     }
   });
 });
 router.get("/:id", async function (req, res) {
-  const user = await User.findByPk(req.params.id);
+  const user = await User.findByPk(req.params.id, {include: Drink});
   res.send(user);
 });
 
@@ -42,7 +47,7 @@ router.put("/:id", async function (req, res) {
     const data = await User.findByPk(req.params.id);
     res.send(data);
   }
-  res.send({ message: "incomplete validation" });
+  res.send({ message: "Incomplete validation" });
 });
 
 router.patch("/:id", async function (req, res) {
@@ -64,7 +69,6 @@ const { findUserById } = require("../database/user");
 const { insertNewUser } = require("../database/user");
 const router = express.Router(); */
 
-/* GET users listing. */
 /* router.get("/", async function (req, res) {
   const users = await getAllUsers();
   res.send(users);
