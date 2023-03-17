@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require(".");
 
 const Drink = sequelize.define(
-  "drink",
+  "Drink",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -14,7 +14,6 @@ const Drink = sequelize.define(
     imageUrl: DataTypes.STRING,
     recipe: DataTypes.STRING,
     isAlcoholic: DataTypes.BOOLEAN,
-    userId: DataTypes.INTEGER,
     categoryId: DataTypes.INTEGER,
     glassId: DataTypes.INTEGER,
     ingredientId: DataTypes.INTEGER

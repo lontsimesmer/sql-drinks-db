@@ -5,7 +5,7 @@ const uuid = require("uuid");
 const { SALT_ROUNDS } = require("../services/constants");
 const User = require("../database/users");
 const Drink = require('../database/drinks');
-const { authMiddleware } = require("../services/auth");
+// const { authMiddleware } = require("../services/auth");
 
 const router = express.Router();
 /* Get users listing. */
@@ -14,7 +14,7 @@ router.get("/", async function (req, res) {
   res.send(users);
 });
 
-router.post("/", authMiddleware, function (req, res) {
+router.post("/", function (req, res) {
   console.log(1);
   const { firstName, lastName, emailAddress, phone, password } = req.body;
   bcrypt.hash(password, SALT_ROUNDS, async function (err, hash) {
